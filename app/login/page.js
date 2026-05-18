@@ -27,17 +27,27 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
-      <div className="bg-white rounded-2xl shadow-md p-8 w-full max-w-md">
-        <h1 className="text-2xl font-bold text-gray-800 mb-2">
-          Login Admin
-        </h1>
-        <p className="text-gray-500 mb-6">
-          Masuk untuk melihat semua feedback.
-        </p>
-        <form onSubmit={handleLogin} className="flex flex-col gap-4">
+    <main className="min-h-screen bg-[#F7F7F5] flex items-center justify-center p-6">
+      <div className="w-full max-w-lg">
+
+        <div className="mb-8">
+          <span className="text-xs font-semibold tracking-widest text-gray-400 uppercase">
+            Admin
+          </span>
+          <h1 className="text-3xl font-bold text-gray-900 mt-1">
+            Selamat datang.
+          </h1>
+          <p className="text-gray-500 mt-2 text-sm">
+            Masuk untuk melihat semua feedback yang masuk.
+          </p>
+        </div>
+
+        <form
+          onSubmit={handleLogin}
+          className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 flex flex-col gap-5"
+        >
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
               Email
             </label>
             <input
@@ -46,11 +56,12 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full bg-[#F7F7F5] border-0 rounded-xl px-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 transition"
             />
           </div>
+
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
               Password
             </label>
             <input
@@ -59,21 +70,25 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full bg-[#F7F7F5] border-0 rounded-xl px-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 transition"
             />
           </div>
+
           <button
             type="submit"
-            className="bg-blue-600 text-white rounded-lg py-2 font-medium hover:bg-blue-700 transition"
+            disabled={status === "loading"}
+            className="w-full bg-gray-900 text-white rounded-xl py-3 text-sm font-semibold hover:bg-gray-700 active:scale-95 transition-all duration-150 disabled:opacity-50"
           >
             {status === "loading" ? "Masuk..." : "Masuk"}
           </button>
+
           {status === "error" && (
-            <p className="text-red-600 text-sm text-center">
+            <p className="text-red-500 text-xs text-center">
               Email atau password salah.
             </p>
           )}
         </form>
+
       </div>
     </main>
   )

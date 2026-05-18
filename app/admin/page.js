@@ -28,33 +28,77 @@ export default function AdminPage() {
     init()
   }, [router])
 
+  async function handleLogout() {
+    await supabase.auth.signOut()
+    router.push("/login")
+  }
+
   if (!authorized || loading) {
-    return <p className="p-8 text-gray-500">Memuat...</p>
+    return (
+      <main className="min-h-screen bg-[#F7F7F5] flex items-center justify-center">
+        <p className="text-sm text-gray-400">Memuat...</p>
+      </main>
+    )
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 p-8">
+    <main className="min-h-screen bg-[#F7F7F5] p-6">
       <div className="max-w-2xl mx-auto">
-        <h1 className="text-2xl font-bold text-gray-800 mb-6">
-          Admin - Semua Feedback
-        </h1>
+
+        <div className="flex justify-between items-start mb-8">
+          <div>
+            <span className="text-xs font-semibold tracking-widest text-gray-400 uppercase">
+              Admin
+            </span>
+            <h1 className="text-3xl font-bold text-gray-900 mt-1">
+              Semua Feedback
+            </h1>
+            <p className="text-gray-500 mt-1 text-sm">
+              {feedbacks.length} feedback masuk
+            </p>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="text-xs text-gray-400 hover:text-gray-700 font-medium transition mt-1"
+          >
+            Keluar
+          </button>
+        </div>
+
         {feedbacks.length === 0 ? (
-          <p className="text-gray-500">Belum ada feedback masuk.</p>
+          <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 text-center">
+            <p className="text-gray-400 text-sm">Belum ada feedback masuk.</p>
+          </div>
         ) : (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3">
             {feedbacks.map((item) => (
-              <div key={item.id} className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                <div className="flex justify-between items-start mb-2">
-                  <p className="font-semibold text-gray-800">{item.name}</p>
+              <div
+                key={item.id}
+                className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200"
+              >
+                <div className="flex justify-between items-start mb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 rounded-full bg-gray-900 flex items-center justify-center">
+                      <span className="text-white text-xs font-semibold">
+                        {item.name.charAt(0).toUpperCase()}
+                      </span>
+                    </div>
+                    <p className="font-semibold text-gray-900 text-sm">
+                      {item.name}
+                    </p>
+                  </div>
                   <p className="text-xs text-gray-400">
                     {new Date(item.created_at).toLocaleString("id-ID")}
                   </p>
                 </div>
-                <p className="text-gray-600 text-sm">{item.message}</p>
+                <p className="text-gray-600 text-sm leading-relaxed pl-9">
+                  {item.message}
+                </p>
               </div>
             ))}
           </div>
         )}
+
       </div>
     </main>
   )
